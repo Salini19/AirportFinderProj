@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AirportDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="airportinfo">
+          <Key>
+            <PropertyRef Name="IATACODE" />
+          </Key>
+          <Property Name="IATACODE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AIRPORTNAME" Type="varchar" MaxLength="200" />
+          <Property Name="CITY" Type="varchar" MaxLength="50" />
+          <Property Name="STATE" Type="varchar" MaxLength="50" />
+          <Property Name="COUNTRY" Type="varchar" MaxLength="50" />
+          <Property Name="LAT" Type="float" />
+          <Property Name="LONG" Type="float" />
+        </EntityType>
+        <EntityType Name="cityinfo">
+          <Key>
+            <PropertyRef Name="CITY" />
+          </Key>
+          <Property Name="CITY" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LAT" Type="float" />
+          <Property Name="LONG" Type="float" />
+        </EntityType>
+        <EntityType Name="FeedBack">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Subject" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="StateImg">
+          <Key>
+            <PropertyRef Name="State" />
+          </Key>
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__airportinf__CITY__71D1E811">
+          <End Role="cityinfo" Type="Self.cityinfo" Multiplicity="0..1" />
+          <End Role="airportinfo" Type="Self.airportinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cityinfo">
+              <PropertyRef Name="CITY" />
+            </Principal>
+            <Dependent Role="airportinfo">
+              <PropertyRef Name="CITY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AirportDBModelStoreContainer">
+          <EntitySet Name="airportinfo" EntityType="Self.airportinfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cityinfo" EntityType="Self.cityinfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeedBack" EntityType="Self.FeedBack" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StateImg" EntityType="Self.StateImg" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__airportinf__CITY__71D1E811" Association="Self.FK__airportinf__CITY__71D1E811">
+            <End Role="cityinfo" EntitySet="cityinfo" />
+            <End Role="airportinfo" EntitySet="airportinfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AirportDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="airportinfo">
+          <Key>
+            <PropertyRef Name="IATACODE" />
+          </Key>
+          <Property Name="IATACODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AIRPORTNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTRY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAT" Type="Double" />
+          <Property Name="LONG" Type="Double" />
+          <NavigationProperty Name="cityinfo" Relationship="Self.FK__airportinf__CITY__5165187F" FromRole="airportinfo" ToRole="cityinfo" />
+        </EntityType>
+        <EntityType Name="cityinfo">
+          <Key>
+            <PropertyRef Name="CITY" />
+          </Key>
+          <Property Name="CITY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LAT" Type="Double" />
+          <Property Name="LONG" Type="Double" />
+          <NavigationProperty Name="airportinfoes" Relationship="Self.FK__airportinf__CITY__5165187F" FromRole="cityinfo" ToRole="airportinfo" />
+        </EntityType>
+        <Association Name="FK__airportinf__CITY__5165187F">
+          <End Role="cityinfo" Type="Self.cityinfo" Multiplicity="0..1" />
+          <End Role="airportinfo" Type="Self.airportinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cityinfo">
+              <PropertyRef Name="CITY" />
+            </Principal>
+            <Dependent Role="airportinfo">
+              <PropertyRef Name="CITY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AirportDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="airportinfoes" EntityType="Self.airportinfo" />
+          <EntitySet Name="cityinfoes" EntityType="Self.cityinfo" />
+          <AssociationSet Name="FK__airportinf__CITY__5165187F" Association="Self.FK__airportinf__CITY__5165187F">
+            <End Role="cityinfo" EntitySet="cityinfoes" />
+            <End Role="airportinfo" EntitySet="airportinfoes" />
+          </AssociationSet>
+          <EntitySet Name="StateImgs" EntityType="AirportDBModel.StateImg" />
+          <EntitySet Name="FeedBacks" EntityType="AirportDBModel.FeedBack" />
+        </EntityContainer>
+        <EntityType Name="StateImg">
+          <Key>
+            <PropertyRef Name="State" />
+          </Key>
+          <Property Name="State" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Photo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FeedBack">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Subject" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AirportDBModelStoreContainer" CdmEntityContainer="AirportDBEntities">
+          <EntitySetMapping Name="airportinfoes">
+            <EntityTypeMapping TypeName="AirportDBModel.airportinfo">
+              <MappingFragment StoreEntitySet="airportinfo">
+                <ScalarProperty Name="IATACODE" ColumnName="IATACODE" />
+                <ScalarProperty Name="AIRPORTNAME" ColumnName="AIRPORTNAME" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="COUNTRY" ColumnName="COUNTRY" />
+                <ScalarProperty Name="LAT" ColumnName="LAT" />
+                <ScalarProperty Name="LONG" ColumnName="LONG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cityinfoes">
+            <EntityTypeMapping TypeName="AirportDBModel.cityinfo">
+              <MappingFragment StoreEntitySet="cityinfo">
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="LAT" ColumnName="LAT" />
+                <ScalarProperty Name="LONG" ColumnName="LONG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StateImgs">
+            <EntityTypeMapping TypeName="AirportDBModel.StateImg">
+              <MappingFragment StoreEntitySet="StateImg">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeedBacks">
+            <EntityTypeMapping TypeName="AirportDBModel.FeedBack">
+              <MappingFragment StoreEntitySet="FeedBack">
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Services";
+}
+
+
+
+<html>
+<head>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/responsiveslides.min.js"></script>
+    <a href="~/fonts/glyphicons-halflings-regular.eot"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.ttf"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff2"></a>
+</head>
+<body class="servbg">
+
+
+    <h1  class="servtitle"  style="font-family: 'Copperplate Gothic'; margin-top: 10px;  text-align: center; font-weight: bold; font-size: 50px; color: #000; margin-bottom: 25px; position: relative;">
+        Our Services
+    </h1>
+
+    
+
+            <div class="header_bottom">
+
+
+
+                <script src="js/jquery.min.js"></script>
+                <script src="js/responsiveslides.min.js"></script>
+                <script>
+                    // You can also use "$(window).load(function() {"
+                    $(function () {
+                        // Slideshow 1
+                        $("#slider1").responsiveSlides({
+                            auto: true,
+                            nav: true,
+                            speed: 500,
+                            namespace: "callbacks",
+                        });
+                    });</script>
+
+
+
+            </div>
+
+        <style>
+            .flexing {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .lefting {
+                margin-left: 5%;
+            }
+            .center {
+                margin-left:8%;
+            }
+            .righting {
+                margin-left: 7%;
+            }
+        </style>
+        <div class="flexing">
+            <div class="lefting">
+                <div class="card-container">
+                    <div class="card">
+                        <img src="~/images/city.png" style="height:100px" ; width="100" alt="" />
+                        <div class="card-content">
+                            <h2>AIRPORT FINDER</h2>
+                            <p>Want to find the airports between Two Cities?</p>
+                            <div class="read_more"> <h3><a href="~/airportinfoes/Create">EXPLORE HERE</a></h3> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="center">
+                <div class="card-container">
+                    <div class="card">
+                        <img src="~/images/state.png" style="height:100px" ; width="100" alt="" />
+                        <div class="card-content">
+                            <h2>STATEWISE AIRPORTS</h2>
+                            <p>Want to find the airports list inside the states of India?</p>
+                            <div class="read_more"> <h3><a href="~/airportinfoes/StateWiseAirports"> EXPLORE HERE</a></h3> </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+         
+                <div class="righting">
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="~/images/cost.png" style="height:100px" ; width="100" alt="" />
+                            <div class="card-content">
+                                <h2>COST CALCULATOR</h2>
+                                <p>Want to find the cost of the flight ticket between two airports?</p>
+                                <div class="read_more"> <h3><a href="~/airportinfoes/cost"> EXPLORE HERE</a></h3> </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+</body>
+</html>

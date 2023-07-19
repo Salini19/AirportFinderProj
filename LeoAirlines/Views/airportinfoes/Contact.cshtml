@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<html>
+<head>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/responsiveslides.min.js"></script>
+    <a href="~/fonts/glyphicons-halflings-regular.eot"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.ttf"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff2"></a>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+                .fa {
+                    padding: 10px;
+                    font-size: 30px;
+                    width: 30px;
+                    border-radius: 60px;
+                    text-align: center;
+                    text-decoration: none;
+                    margin: 5px 2px;
+                }
+
+                    .fa:hover {
+                        opacity: 0.9;
+                    }
+
+                .fa-facebook {
+                    background: #3B5998;
+                    color: white;
+                }
+
+                .fa-twitter {
+                    background: #55ACEE;
+                    color: white;
+                }
+
+
+
+                .fa-linkedin {
+                    background: #007bb5;
+                    color: white;
+                }
+
+                .fa-youtube {
+                    background: #bb0000;
+                    color: white;
+                }
+
+                .fa-instagram {
+                    background: linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf);
+                    /*            linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,4f5bd5);
+        */ color: white;
+                }
+
+        .button {
+            background-color: #F70D1A;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 8px 14px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+
+
+
+</head>
+
+<body class="contactbg">
+
+
+
+    <div class="header_bottom">
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/responsiveslides.min.js"></script>
+        <script>
+            // You can also use "$(window).load(function() {"
+            $(function () {
+                // Slideshow 1
+                $("#slider1").responsiveSlides({
+                    auto: true,
+                    nav: true,
+                    speed: 500,
+                    namespace: "callbacks",
+                });
+            });</script>
+
+    </div>
+    @using (Html.BeginForm("Contact", "airportinfoes", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @*<img src="~/images/air.png.jpg" style="height:250px; width:350px" />*@
+        <div class="about_data">
+            <div class="about_desc">
+                <h2 style="font-family:'Copperplate Gothic'; font-weight:bold; font-size:40px;margin-left:110px;margin-top:10px">Get In Touch</h2>
+                <div class="feedback">
+                    <div class="feed">
+
+                        <label>NAME</label>
+                        <input class="txtbox" type="text" name="Name" required>
+
+
+
+                        <label>E-MAIL</label>
+                        <input class="txtbox" type="email" name="Email" required>
+
+
+
+                        <label>SUBJECT</label>
+
+
+
+                        <textarea class="txtbox" name="Subject" required></textarea>
+
+
+
+                        <input class="button" type="submit" value="Submit">
+                    </div>
+                </div>
+                <div class="company_address">
+                    <h2><b>Company Information :</b></h2>
+                    <div class="address_desc">
+                        <p>Block 8, DLF IT Park,</p>
+                        <p>Chennai,</p>
+                        <p>INDIA</p>
+                    </div>
+                    <div class="address_data">
+                        <p>Phone:00000000000<p>
+                        <p>Fax:00000000000<p>
+                        <p>Email: airinfo@mphasis.com<p>
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div style="margin-left: 990px; color: #000080; font-family:'Gill Sans MT';font-weight:bold; font-size:20px">
+            <h2 style="margin-left:80px">Follow Us on</h2>
+
+
+            <a href="#" class="fa fa-facebook"></a>
+            <a href="#" class="fa fa-twitter"></a>
+            <a href="#" class="fa fa-linkedin"></a>
+            <a href="#" class="fa fa-youtube"></a>
+            <a href="#" class="fa fa-instagram"></a>
+
+        </div>
+
+    }
+    </body>
+    @if (TempData["Success"] != null)
+    {
+        <script type="text/javascript">
+alert("@TempData["Success"]")
+        </script>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <script type="text/javascript">
+alert("@TempData["Error"]")
+        </script>
+    }
+</html>
+
+

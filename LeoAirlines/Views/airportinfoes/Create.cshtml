@@ -1,0 +1,501 @@
+﻿@model LeoAirlines.Models.cityinfo
+@using System.Web.UI.WebControls
+
+
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <link href="~/css/style.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/responsiveslides.min.js"></script>
+    <a href="~/fonts/glyphicons-halflings-regular.eot"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.ttf"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff2"></a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+
+    <body>
+            <style>
+                body {
+                    background-image: url('../../images/run.jpg');
+                    background-repeat: no-repeat;
+                    background-attachment: fixed;
+                    background-size: 100% 100%;
+                }
+
+                .button {
+                    background-color: #357EC7;
+                    border: none;
+                    border-radius: 10px;
+                    color: white;
+                    padding: 12px 18px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    margin: 4px 2px;
+                    cursor: pointer;
+                }
+
+                .autocomplete-items {
+                    position: absolute;
+                    border: 1px solid #d4d4d4;
+                    border-bottom: none;
+                    border-top: none;
+                    z-index: 99;
+                    /*position the autocomplete items to be the same width as the container:*/
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                }
+
+
+
+                    .autocomplete-items div {
+                        padding: 10px;
+                        cursor: pointer;
+                        background-color: #fff;
+                        border-bottom: 1px solid #d4d4d4;
+                    }
+
+
+
+                        /*when hovering an item:*/
+                        .autocomplete-items div:hover {
+                            background-color: #e9e9e9;
+                        }
+
+
+
+                /*when navigating through the items using the arrow keys:*/
+                .autocomplete-active {
+                    background-color: DodgerBlue !important;
+                    color: #ffffff;
+                }
+                .autocomplete {
+                    position: relative;
+                    display: inline-block;
+                    margin-top: 30px;
+                }
+
+
+
+                input {
+                    border: 1px solid transparent;
+                    background-color: #f1f1f1;
+                    padding: 10px;
+                    font-size: 16px;
+                }
+
+
+
+                    input[type=text] {
+                        background-color: #f1f1f1;
+                        width: 100%;
+                    }
+
+
+
+                    input[type=submit] {
+                        background-color: DodgerBlue;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+
+            </style>
+            <h1 style="margin-left:320px; margin-top:0px; font-family:'Gill Sans MT';color:steelblue"><b>
+            GO!&nbsp;&nbsp; FLY!!&nbsp;&nbsp;EXPLORE!!!
+        </b></h1>
+            <section class="sourcedest">
+
+
+
+                @using (Html.BeginForm("Create", "airportinfoes"))
+                {
+
+
+
+                    @Html.AntiForgeryToken()
+
+                    <form autocomplete="on" action="/action_page.php">
+
+
+
+                        <div class="autocomplete" style="width: 300px; float: left; margin-left: 50px">
+                            <p style="font-weight: bold; font-size: 20px; font-family: 'Gill Sans MT'; color: #E8E4C9 ">Source</p>
+                            <input id="myInput" type="text" name="source" placeholder="Enter Source City">
+
+                        </div>
+
+
+
+
+
+                        &nbsp;&nbsp;
+
+
+
+                        <div class="autocomplete" style="width: 300px; margin-left: 40px">
+                            <p style="font-weight: bold; font-size: 20px; font-family: 'Gill Sans MT'; color: #E8E4C9 ">Destination</p>
+                            <input id="myInput1" type="text" name="destination" placeholder="Enter Destination City">
+                        </div>
+                        <br />
+                        <br />
+
+
+
+                        <button class="button" type="submit" name="search" style="margin-left:330px; margin-top:30px; font-size:20px" onclick="auto()">SEARCH</button>
+                    </form>
+                }
+
+
+                </section>
+
+    <script>
+        function autocomplete(inp, arr) {
+            /*the autocomplete function takes two arguments,
+            the text field element and an array of possible autocompleted values:*/
+            var currentFocus;
+            /*execute a function when someone writes in the text field:*/
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                /*close any already open lists of autocompleted values*/
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                /*create a DIV element that will contain the items (values):*/
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                /*append the DIV element as a child of the autocomplete container:*/
+                this.parentNode.appendChild(a);
+                /*for each item in the array...*/
+                for (i = 0; i < arr.length; i++) {
+                    /*check if the item starts with the same letters as the text field value:*/
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        /*create a DIV element for each matching element:*/
+                        b = document.createElement("DIV");
+                        /*make the matching letters bold:*/
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        /*execute a function when someone clicks on the item value (DIV element):*/
+                        b.addEventListener("click", function (e) {
+                            /*insert the value for the autocomplete text field:*/
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            /*close the list of autocompleted values,
+                            (or any other open lists of autocompleted values:*/
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            /*execute a function presses a key on the keyboard:*/
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    /*If the arrow DOWN key is pressed,
+                    increase the currentFocus variable:*/
+                    currentFocus++;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 38) { //up
+                    /*If the arrow UP key is pressed,
+                    decrease the currentFocus variable:*/
+                    currentFocus--;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        /*and simulate a click on the "active" item:*/
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                /*a function to classify an item as "active":*/
+                if (!x) return false;
+                /*start by removing the "active" class on all items:*/
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                /*add class "autocomplete-active":*/
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+            function removeActive(x) {
+                /*a function to remove the "active" class from all autocomplete items:*/
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("autocomplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                /*close all autocomplete lists in the document,
+                except the one passed as an argument:*/
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            /*execute a function when someone clicks in the document:*/
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+
+
+
+        /*An array containing all the country names in the world:*/
+        var cities = ["aamby valley",
+            "Adampur", "Agartala", "Agatti", "Agra",
+            "Ahmedabad",
+            "Aizawl",
+            "Ajmer",
+            "Akbarpur",
+            "Akli",
+            "Akola",
+            "Allahabad",
+            "along",
+            "Amla",
+            "Amreli",
+            "Amritsar",
+            "Angul",
+            "Aurangabad",
+            "Balurghat",
+            "Band Tal",
+            "Bandalo",
+            "Bangalore",
+            "Barauli Khurd",
+            "Barrackpore",
+            "Barwaada",
+            "Basapur",
+            "Behala",
+            "Belagondapalli",
+            "Belgaum",
+            "Bellary",
+            "Berhampur",
+            "Bhagalpur",
+            "Bhaini",
+            "Bhavnagar",
+            "bhilwara",
+            "Bhopal",
+            "Bhuj",
+            "Bhuntar",
+            "Bidar",
+            "Bikaner",
+            "Bilaspur",
+            "birlagram",
+            "Bokaro",
+            "Borough",
+            "burhar",
+            "burnpur",
+            "Calicut",
+            "Campbell Bay",
+            "chakulia",
+            "chanda",
+            "Chandigarh",
+            "Chennai",
+            "Chinyalisour",
+            "Chipi",
+            "Coimbatore",
+            "Cooch Behar",
+            "Daman",
+            "Daporijo",
+            "Darbhanga",
+            "Deesa ",
+            "Dehradun",
+            "Deoghar",
+            "dhana",
+            "Dhule",
+            "Dibrugarh",
+            "Diglipur",
+            "Dimapur",
+            "Diu",
+            "Dumka",
+            "Dunakonda",
+            "Durgapur",
+            "Faizabad",
+            "Gannavaram",
+            "Gaya",
+            "Ghaziabad",
+            "Gondia",
+            "Gopinathapur",
+            "Gorakhpur",
+            "Gujrani",
+            "guna",
+            "Guwahati",
+            "Gwalior",
+            "Harihar",
+            "Hisar",
+            "Hollongi",
+            "Hubli",
+            "Hyderabad",
+            "Imphal ",
+            "Indore",
+            "Jabalpur",
+            "Jagdalpur",
+            "Jaipur",
+            "Jaisalmer",
+            "Jalgaon",
+            "Jammu",
+            "Jamnagar",
+            "Jamshedpur",
+            "Jeypore",
+            "Jhansi",
+            "Jharsuguda",
+            "Jhunjhunu",
+            "Jodhpur",
+            "Jorhat",
+            "Kadapa",
+            "Kailashahar",
+            "Kalaburagi",
+            "Kandla",
+            "Kangra",
+            "Kannur",
+            "Kanpur",
+            "karad",
+            "Kargil",
+            "Keshod",
+            "Khajuraho",
+            "Khandwa",
+            "Khowai",
+            "Kochi",
+            "Kolhapur",
+            "Kolkata",
+            "kondatarai",
+            "Kota",
+            "Kushinagar",
+            "Lalitpur",
+            "Latur",
+            "Lilabari",
+            "Lucknow",
+            "Madhubani",
+            "Madhurapudi",
+            "Madurai",
+            "Malda",
+            "Mandvi",
+            "Mangalore",
+            "Manpor",
+            "Marhamtabad",
+            "Masotiya",
+            "medininagar",
+            "Mehsana",
+            "Mithapur",
+            "Mohammadabad",
+            "Mopa",
+            "Muirpur",
+            "Mumbai",
+            "Mundra",
+            "Muzaffarpur",
+            "Mysore",
+            "Nagarjuna Sagar",
+            "Nagaur",
+            "Nagpur",
+            "Nallatinputhur",
+            "Nanded",
+            "nandhini",
+            "Nasik",
+            "Nawapara",
+            "New Delhi",
+            "Neyveli",
+            "Niawal",
+            "nimach",
+            "Nubra",
+            "Orvakal",
+            "Osmanabad",
+            "Pakyong",
+            "Pantnagar",
+            "Pasighat",
+            "Pathankot",
+            "Patna ",
+            "Phalodi",
+            "pilani",
+            "Pithoragarh",
+            "Poonch",
+            "Porbandar",
+            "Port Blair",
+            "Puducherry",
+            "Pune",
+            "Rahani",
+            "Raipur",
+            "Rajkot",
+            "Rajouri",
+            "Ramagundam",
+            "Ranchi",
+            "ratlam ",
+            "Raxaul",
+            "Rourkela",
+            "Rumgara",
+            "Saharsa",
+            "sahnewal",
+            "Salem",
+            "Sambalpur",
+            "sangrur",
+            "satna",
+            "Shillong",
+            "Shirpur",
+            "Shridi",
+            "sidhi",
+            "Silchar",
+            "Siliguri",
+            "Sindhudurg",
+            "Sirohi",
+            "Solapur",
+            "Srinagar",
+            "Sultanpur",
+            "Surat",
+            "Suratgharh",
+            "Tezpur",
+            "Tezu",
+            "Thiruvananthapuram",
+            "Tiruchirappalli",
+            "Tirupati",
+            "Toranagallu",
+            "Udaipur",
+            "Ujjain",
+            "Utkela",
+            "uttarlai",
+            "Vadodara",
+            "Vagaikulam",
+            "Vanasthali",
+            "Varanasi",
+            "Vasco da Gama",
+            "Vellore",
+            "Vijay Nagar",
+            "Visakhapatnam",
+            "Warangal",
+            "Yavatmal",
+            "Ziro"];
+
+
+
+        /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+        autocomplete(document.getElementById("myInput"), cities);
+        autocomplete(document.getElementById("myInput1"), cities);
+    </script>
+
+
+
+</body>
+</html>

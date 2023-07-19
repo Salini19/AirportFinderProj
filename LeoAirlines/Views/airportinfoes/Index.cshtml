@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<html>
+<head>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/responsiveslides.min.js"></script>
+    <a href="~/fonts/glyphicons-halflings-regular.eot"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.ttf"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff2"></a>
+</head>
+
+<body class="indexbg">
+
+    
+        <div class="indexslide">
+            <div class="outer">
+
+            </div>
+        </div>
+        @*<div class="indexcnt">
+            <h1>Welcome To Mphasis Airlines</h1>
+            <p>
+                “When once you have tasted flight, you will forever walk the earth with your eyes turned skyward, <br />for there you have been, and there you will always long to return.”
+                <div style="margin-left:900px;font-weight:bold">
+                    – Leonardo DaVinci
+                </div>
+            </p>
+        </div>*@
+        <div class="header_bottom">
+
+            <script src="js/jquery.min.js"></script>
+            <script src="js/responsiveslides.min.js"></script>
+            <script>
+                // You can also use "$(window).load(function() {"
+                $(function () {
+                    // Slideshow 1
+                    $("#slider1").responsiveSlides({
+                        auto: true,
+                        nav: true,
+                        speed: 500,
+                        namespace: "callbacks",
+                    });
+                });</script>
+
+
+
+        </div>
+
+
+        <div class="footer">
+
+        
+                    <p> <b>© 2023 Mphasis Airlines. All Rights Reserved.</b></p>
+
+                </div>
+            
+
+</body>
+</html>

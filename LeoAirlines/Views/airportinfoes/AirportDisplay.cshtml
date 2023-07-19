@@ -1,0 +1,89 @@
+﻿@model IEnumerable<LeoAirlines.Models.airinfo>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+
+<style>
+    body {
+        background-image: url('../../images/bg2.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-blue">
+            <tr>
+                <th> S.No</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IATACODE)
+
+
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AIRPORTNAME)
+
+
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CITY)
+                </th>
+
+
+
+
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="mytable">
+            @foreach (var item in Model)
+            {
+
+
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IATACODE)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AIRPORTNAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CITY)
+                    </td>
+
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>var table = document.getElementById("mytable");
+    var rows = table.getElementsByTagName("tr");
+
+
+
+    for (var  i= 0; i < rows.length; i++) {
+        var row = rows[i];
+        var idcell = document.createElement("td");
+        idcell.textContent = i + 1;
+        row.insertBefore(idcell, row.firstChild);
+
+
+
+
+    }</script>
+

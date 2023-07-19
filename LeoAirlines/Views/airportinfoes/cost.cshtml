@@ -1,0 +1,520 @@
+﻿@*@model LeoAirlines.Models.airportinfo*@
+
+@{
+    ViewBag.Title = "cost";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/responsiveslides.min.js"></script>
+    <a href="~/fonts/glyphicons-halflings-regular.eot"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.ttf"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff"></a>
+    <a href="~/fonts/glyphicons-halflings-regular.woff2"></a>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .button {
+            background-color: #357EC7;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 12px 18px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        body {
+            font: 16px Arial;
+        }
+
+
+
+        /*the container must be positioned relative:*/
+        .autocomplete {
+            position: relative;
+            display: inline-block;
+            margin-top:30px;
+        }
+
+
+
+        input {
+            border: 1px solid transparent;
+            background-color: #f1f1f1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+
+
+            input[type=text] {
+                background-color: #f1f1f1;
+                width: 100%;
+            }
+
+
+
+            input[type=submit] {
+                background-color: DodgerBlue;
+                color: #fff;
+                cursor: pointer;
+            }
+
+
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+
+
+            .autocomplete-items div {
+                padding: 10px;
+                cursor: pointer;
+                background-color: #fff;
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+
+
+                /*when hovering an item:*/
+                .autocomplete-items div:hover {
+                    background-color: #e9e9e9;
+                }
+
+
+
+        /*when navigating through the items using the arrow keys:*/
+        .autocomplete-active {
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+
+
+<body class="costbg">
+    <div class="cost">
+        <section>
+            <h1 style="font-family: 'Copperplate Gothic'; font-size: 40px; text-align: center; font-weight: bold">Cost Calculator</h1>
+
+
+
+            @using (Html.BeginForm("cost", "airportinfoes"))
+            {
+
+
+
+                @Html.AntiForgeryToken()<!--Make sure the form has the autocomplete function switched off:-->
+              
+                <form autocomplete="on" action="/action_page.php">
+
+                   
+                    
+                    <div class="autocomplete" style="width: 300px; float: left; margin-left: 50px">
+                        <p  style="font-weight: bold; font-size: 20px; font-family: 'Gill Sans MT'; color: #E8E4C9 ">From</p>
+                        <input id="myInput" type="text" name="From1" placeholder="Enter Airport Name">
+
+                    </div>
+
+
+
+
+
+                    &nbsp;&nbsp;
+
+
+
+                    <div class="autocomplete" style="width: 300px; margin-left: 40px">
+                        <p style="font-weight: bold; font-size: 20px; font-family: 'Gill Sans MT'; color: #E8E4C9 ">To</p>
+                        <input id="myInput1" type="text" name="To1" placeholder="Enter Airport Name">
+                    </div>
+                    <br />
+                    <br />
+
+
+
+                    <button class="button" type="submit" name="search" style="margin-left:330px; margin-top:30px; font-size:20px" onclick="auto()">Calculate</button>
+                </form>
+                <br />
+                <br />
+
+
+                <div style="margin-left: 80px; font-family: 'Gill Sans MT'; font-weight: bold">
+                    <h1 style="color:#ffffff">@TempData["dist"]</h1>
+                    <h1 style="color: #36F57F; margin-left: 230px; font-size: 20px; margin-top: 10px">@TempData["Cost"]</h1>
+
+                </div>
+
+
+
+
+            }
+
+
+
+        </section>
+    </div>
+
+
+
+
+    <script>function autocomplete(inp, arr) {
+                /*the autocomplete function takes two arguments,
+                the text field element and an array of possible autocompleted values:*/
+                var currentFocus;
+                /*execute a function when someone writes in the text field:*/
+                inp.addEventListener("input", function (e) {
+                    var a, b, i, val = this.value;
+                    /*close any already open lists of autocompleted values*/
+                    closeAllLists();
+                    if (!val) { return false; }
+                    currentFocus = -1;
+                    /*create a DIV element that will contain the items (values):*/
+                    a = document.createElement("DIV");
+                    a.setAttribute("id", this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    /*append the DIV element as a child of the autocomplete container:*/
+                    this.parentNode.appendChild(a);
+                    /*for each item in the array...*/
+                    for (i = 0; i < arr.length; i++) {
+                        /*check if the item starts with the same letters as the text field value:*/
+                        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                            /*create a DIV element for each matching element:*/
+                            b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                            b.innerHTML += arr[i].substr(val.length);
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
+                            b.addEventListener("click", function (e) {
+                                /*insert the value for the autocomplete text field:*/
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                /*close the list of autocompleted values,
+                                (or any other open lists of autocompleted values:*/
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
+                    }
+                });
+                /*execute a function presses a key on the keyboard:*/
+                inp.addEventListener("keydown", function (e) {
+                    var x = document.getElementById(this.id + "autocomplete-list");
+                    if (x) x = x.getElementsByTagName("div");
+                    if (e.keyCode == 40) {
+                        /*If the arrow DOWN key is pressed,
+                        increase the currentFocus variable:*/
+                        currentFocus++;
+                        /*and and make the current item more visible:*/
+                        addActive(x);
+                    } else if (e.keyCode == 38) { //up
+                        /*If the arrow UP key is pressed,
+                        decrease the currentFocus variable:*/
+                        currentFocus--;
+                        /*and and make the current item more visible:*/
+                        addActive(x);
+                    } else if (e.keyCode == 13) {
+                        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                        e.preventDefault();
+                        if (currentFocus > -1) {
+                            /*and simulate a click on the "active" item:*/
+                            if (x) x[currentFocus].click();
+                        }
+                    }
+                });
+                function addActive(x) {
+                    /*a function to classify an item as "active":*/
+                    if (!x) return false;
+                    /*start by removing the "active" class on all items:*/
+                    removeActive(x);
+                    if (currentFocus >= x.length) currentFocus = 0;
+                    if (currentFocus < 0) currentFocus = (x.length - 1);
+                    /*add class "autocomplete-active":*/
+                    x[currentFocus].classList.add("autocomplete-active");
+                }
+                function removeActive(x) {
+                    /*a function to remove the "active" class from all autocomplete items:*/
+                    for (var i = 0; i < x.length; i++) {
+                        x[i].classList.remove("autocomplete-active");
+                    }
+                }
+                function closeAllLists(elmnt) {
+                    /*close all autocomplete lists in the document,
+                    except the one passed as an argument:*/
+                    var x = document.getElementsByClassName("autocomplete-items");
+                    for (var i = 0; i < x.length; i++) {
+                        if (elmnt != x[i] && elmnt != inp) {
+                            x[i].parentNode.removeChild(x[i]);
+                        }
+                    }
+                }
+                /*execute a function when someone clicks in the document:*/
+                document.addEventListener("click", function (e) {
+                    closeAllLists(e.target);
+                });
+            }
+
+
+
+            /*An array containing all the country names in the world:*/
+        var cities = ["Agra Airport",
+            "Agatti Airport",
+            "Adampur Airport",
+            "Lengpui Airport",
+            "Akola Airport",
+            "Akli Airport",
+            "Sardar Vallabh Bhai Patel International Airport",
+            "Amla Airport",
+            "Akbarpur Mahamaya Rajkiya Airport",
+            "Abu Road Airport",
+            "Sri Guru Ram Dass Jee International ",
+            "Aamby Valley Airport",
+            "Barrackpore Air Force Station",
+            "Vadodara Airport",
+            "Behala Airport",
+            "Bellary Airport",
+            "Bhagalpur Airport",
+            "Bhiwani Airport",
+            "Bhuj Airport",
+            "Bhilai Airport",
+            "Raja Bhoj International Airport",
+            "Berhampur Airport",
+            "Bhavnagar Airport",
+            "Bhilwara Airport",
+            "Baldota Koppal Aerodrome",
+            "Nal Airport",
+            "Kempegowda International Airport",
+            "Baramati Airport",
+            "Bokaro Airport",
+            "Chhatrapati Shivaji International Airport",
+            "Begumpet Airport",
+            "Burnpur Airport",
+            "Birlagram Airport",
+            "Beas Airport",
+            "Birasal Airport",
+            "Band Tal Airport",
+            "Bentayan Airport",
+            "Banswara Airport",
+            "Campbell Bay Airport",
+             "Calicut International Airport",
+            "Netaji Subhash Chandra Bose International Airport",
+            "Kadapa Airport",
+            "Chanda Airport",
+            "Coimbatore International Airport",
+            "Chakulia Airport",
+            "Cannur International Airport",
+            "Cooch Behar Airport",
+            "Cochin International Airport",
+            "Cuttack Airport",
+            "Dhanbad Airport",
+            "Darbhanga Airport",
+            "Jolly Grant Airport",
+            "Indira Gandhi International Airport",
+            "Daporijo Airport",
+            "Deoghar Airport",
+            "Dhana Airport",
+            "Dhulia Airport",
+            "Kangra Airport ",
+            "Dibrugarh Airport",
+            "Diu Airport",
+            "Dunakonda Airport",
+            "Dimapur Airport",
+            "Deesa Airport",
+            "Durgapur Steel Plant Airport",
+            "Daltonganj Airport",
+            "Faizabad Airport",
+            "Fury Airport",
+            "Lokpriya Gopinath Bordoloi International Airport",
+            "Gaya Airport",
+            "Kalaburagi Airport",
+            "Gondia Airport",
+            "Giridih Airport",
+            "Dabolim Airport",
+            "Gorakhpur Airport",
+            "Mopa International Airport",
+            "Guna Airport",
+            "Gwalior Airport",
+            "Hindon Airport ",
+
+
+
+            "Hubli Airport",
+            "Itanagar Donyi Polo Hollongi Airport",
+            "Khajuraho Airport",
+            "Hosur Airport",
+            "Hirakud Airport",
+            "Harihar Airport",
+            "Hisar Airport",
+            "Rajiv Gandhi International Airport",
+            "Devi Ahilyabai Holkar Airport",
+            "Imphal Airport",
+            "Nashik Airport",
+            "Maharaja Bir Bikram Airport",
+            "Bagdogra Airport",
+            "Chandigarh International Airport",
+            "Allahabad Airport",
+            "Mangalore International Airport",
+            "Belagavi  Airport",
+            "Kailashahar Airport",
+            "Lilabari North Lakhimpur Airport",
+            "Jammu Airport",
+            "Keshod Airport",
+            "Madurai Airport",
+            "Khowai Airport",
+            "Pathankot Airport",
+            "Birsa Munda Airport",
+            "Silchar Airport",
+            "Pasighat Airport",
+            "Aurangabad Airport",
+            "Along Airport",
+            "Sonari Airport",
+            "Bidar Airport",
+            "Kandla Airport",
+            "Veer Savarkar International Airport",
+            "Jaipur International Airport",
+            "Jodhpur Airport",
+            "Jamnagar Airport",
+            "Jagdalpur Airport",
+            "Jhansi Airport",
+            "Jhunjhunu Airport",
+            "Jalgaon Airport",
+            "Jabalpur Airport",
+            "Jharsuguda Airport",
+            "Jorhat Airport",
+            "Jaisalmer Airport",
+            "Raigarh Airport",
+            "Karad Airport",
+            "Kargil Airport",
+            "IIT Kanpur Airport",
+            "Kushinagar International Airport",
+            "Kanpur Civil Airport",
+            "Khandwa Airport",
+            "Kendujhar Airport",
+            "INS Kohassa",
+            "Kurnool Airport",
+            "Chhatrapati Rajaram Maharaj Airport",
+            "Karnal Airport",
+            "Kanpur Airport",
+            "Korba Airport",
+            "Kovilpatti Airport",
+            "Kishangarh Airport",
+            "Kota Airport",
+            "Kullu Manali Airport",
+            "Malda Airport",
+            "Chaudhary Charan Singh International Airport",
+            "Lalitpur Airport",
+            "Murod Kond Airport",
+            "Ludhiana Airport",
+            "Chennai International Airport",
+            "Madhubani Airport",
+            "Mundra Airport",
+            "Mandvi Airport",
+            "Maa Ganga Airport Uttarkashi",
+            "Marhamtabad Airport",
+            "Mohammadabad Airport",
+            "Muirpur Airport",
+            "Mehsana Airport",
+            "Mithapur Airport",
+            "Mysore Airport",
+            "Muzaffarpur Airport",
+            "Dr. Babasaheb Ambedkar International Airport",
+            "Nagaur Airport",
+            "Nanded Airport",
+            "Nadirgul Airport",
+            "Nimach Airport",
+            "Daman Airport",
+            "Nawapara Airport",
+            "Nagarjuna Sagar Airport",
+            "Neyveli Airport",
+            "Osmanabad Airport",
+            "Bilaspur Airport",
+            "Jay Prakash Narayan Airport",
+            "Porbandar Airport",
+            "Pithoragarh Airport",
+            "Phalodi Airport",
+            "Pilani New Airport",
+            "Poonch Airport",
+            "Pune Airport",
+            "Pondicherry Airport",
+            "Jeypore Airport",
+            "Pakyong Airport",
+            "Rajkot Airport",
+            "Kazi Nazrul Islam Airport",
+            "Balurghat Airport",
+            "Rajahmundry Airport",
+            "Rajouri Airport",
+            "Basanth Nagar Airport",
+            "Swami Vivekananda Airport",
+            "Rourkela Airport",
+            "Ratlam Airport",
+            "Raxaul Airport",
+            "Shirdi Airport",
+            "Saifai Airport",
+            "Sindhudurg Airport",
+            "Safdarjung Airport",
+            "Sindhudurg Airport",
+            "Sant Gadge Baba Yavatmal Airport",
+            "Saharsa Airport",
+            "Shillong Airport",
+            "Sidhi Airport",
+            "Savitri Jindal Airport",
+            "Sido Kanhu Airport",
+            "Suratgarh New Airport",
+            "Shirpur Airport",
+            "Sirohi Airport",
+            "Solapur Airport",
+            "Sultanpur Airport",
+            "Surat Airport",
+            "Sheikh ul Alam International Airport",
+            "Salem Airport",
+            "Tuticorin Airport",
+            "Tezu Airport",
+            "Thoise Airport",
+            "Tirupati Airport",
+            "Satna Airport",
+            "Thiruvananthapuram International Airport",
+            "Tiruchirappalli International Airport",
+            "Maharana Pratap Airport",
+            "Utkela Airport",
+            "Uttarlai Airport",
+            "Jindal Vijaynagar Airport",
+            "Vijayawada Airport",
+            "Vellore Airport",
+            "Vijay Nagar Airport",
+            "Lal Bahadur Shastri Airport",
+            "Vanasthali Airport",
+            "Visakhapatnam Airport",
+            "Warangal Airport",
+            "Ziro Airport"];
+
+
+
+            /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+            autocomplete(document.getElementById("myInput"), cities);
+        autocomplete(document.getElementById("myInput1"), cities);</script>
+
+
+
+</body>
+</html>
